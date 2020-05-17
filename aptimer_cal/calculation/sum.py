@@ -9,4 +9,4 @@ class SumFunc:
         self.b = data['b']
 
     def sum(self):
-        return self.a + self.b
+        return self.a - self.b
