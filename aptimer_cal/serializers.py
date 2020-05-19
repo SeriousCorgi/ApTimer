@@ -21,3 +21,9 @@ class IniBoundSerializers(serializers.Serializer):
     xcl_right = serializers.FloatField()
     xf_right = serializers.FloatField()
     xoh_right = serializers.FloatField()
+
+
+class DisTimeSerializers(serializers.Serializer):
+    dx = serializers.FloatField()          # distance step, dx (um)
+    dt = serializers.FloatField()          # time step, dt (hour)
+    iteration = serializers.IntegerField()
