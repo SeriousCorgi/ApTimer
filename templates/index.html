@@ -1,0 +1,56 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApTimer</title>
+
+    <!-- Jquery -->
+    <script src="{% static 'js/utils/jquery-3.5.1.min.js' %}"></script>
+
+    <!-- Plotly -->
+    <script src="{% static 'js/utils/plotly-latest.min.js' %}"></script>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</head>
+
+<body>
+    <form class="diffusivity-cal" method="GET">
+        temp:
+        <input type="text" placeholder="900" id="temp">
+        tilt:
+        <input type="text" placeholder="17" id="tilt">
+        <button class="button-cal" type="button">Calculate</button>
+    </form>
+
+    <div class="calculation-result"></div>
+
+    <form class="plot-input">
+        xcl_ini:
+        <input type="text" id="xcl_ini">
+        xf_ini:
+        <input type="text" id="xf_ini">
+        xoh_ini:
+        <input type="text" id="xoh_ini"><br>
+        xcl_left:
+        <input type="text" id="xcl_left">
+        xf_left:
+        <input type="text" id="xf_left">
+        xoh_left:
+        <input type="text" id="xoh_left"><br>
+        xcl_right:
+        <input type="text" id="xcl_right">
+        xf_right:
+        <input type="text" id="xf_right">
+        xoh_right:
+        <input type="text" id="xoh_right"><br>
+        <button class="button-plot" type="button">Plot</button>
+    </form>
+
+    <div id="plot"></div>
+
+</body>
+
+</html>
