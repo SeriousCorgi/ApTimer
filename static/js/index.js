@@ -54,12 +54,12 @@ $(document).ready(function () {
                 };
                 var layout = {
                     grid: {rows: 1, columns: 3, pattern: 'independent'},
-                    xaxis: {dtick: 2},
-                    xaxis2: {dtick: 2},
-                    xaxis3: {dtick: 2},
-                    yaxis: {dtick: 0.01},
-                    yaxis2: {dtick: 0.05},
-                    yaxis3: {dtick: 0.05},
+                    xaxis: {dtick: 2, title: {text: "Distance (µm)"}},
+                    xaxis2: {dtick: 2, title: {text: "Distance (µm)"}},
+                    xaxis3: {dtick: 2, title: {text: "Distance (µm)"}},
+                    yaxis: {dtick: 0.01, title: {text: "X<sub>Cl</sub>"}},
+                    yaxis2: {dtick: 0.05, title: {text: "X<sub>F</sub>"}},
+                    yaxis3: {dtick: 0.05, title: {text: "X<sub>OH</sub>"}},
                 };
 
                 Plotly.newPlot('plot', [lineCl, lineF, lineOH], layout);
