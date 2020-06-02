@@ -14,14 +14,55 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                console.log("succes");
-                console.log(data)
-                Plotly.newPlot('plot', [{
-                    x: [1, 2, 3, 4, 5],
-                    y: [1, 2, 4, 8, 16],
+                console.log("success");
+                console.log(data);
+                var x = data['x'];
+                var y_cl = data['y_cl'];
+                var y_f = data['y_f'];
+                var y_oh = data['y_oh'];
+                var err_cl = data['err_cl'];
+                var err_f = data['err_f'];
+                var err_oh = data['err_oh'];
+
+                var lineCl = {
+                    x: x,
+                    y: y_cl,
+                    error_y: {array: err_cl, visible: true, color: 'black'},
                     mode: 'lines+markers',
-                    type: 'scatter'
-                }]);
+                    line: {color: 'black', dash: 'dash', width: 2},
+                    showlegend: false,
+                };
+                var lineF = {
+                    x: x,
+                    y: y_f,
+                    xaxis: 'x2',
+                    yaxis: 'y2',
+                    error_y: {array: err_f, visible: true, color: 'black'},
+                    mode: 'lines+markers',
+                    line: {color: 'black', dash: 'dash', width: 2},
+                    showlegend: false,
+                };
+                var lineOH = {
+                    x: x,
+                    y: y_oh,
+                    xaxis: 'x3',
+                    yaxis: 'y3',
+                    error_y: {array: err_oh, visible: true, color: 'black'},
+                    mode: 'lines+markers',
+                    line: {color: 'black', dash: 'dash', width: 2},
+                    showlegend: false,
+                };
+                var layout = {
+                    grid: {rows: 1, columns: 3, pattern: 'independent'},
+                    xaxis: {dtick: 2},
+                    xaxis2: {dtick: 2},
+                    xaxis3: {dtick: 2},
+                    yaxis: {dtick: 0.01},
+                    yaxis2: {dtick: 0.05},
+                    yaxis3: {dtick: 0.05},
+                };
+
+                Plotly.newPlot('plot', [lineCl, lineF, lineOH], layout);
             },
             error: function (data) {
                 console.log("error");
@@ -44,9 +85,9 @@ $(document).ready(function () {
                 let df = diff['D(F)'];
                 let doh = diff['D(OH)'];
 
-                $new_div = "D(CL): " + dcl + "<br>" +
-                    "D(F): " + df + "<br>" +
-                    "D(OH): " + doh
+                $new_div = "D<sub>Cl</sub>: " + dcl + "<br>" +
+                    "D<sub>F</sub>: " + df + "<br>" +
+                    "D<sub>OH</sub>: " + doh
                 $(".calculation-result").append($new_div);
             }
         });
