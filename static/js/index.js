@@ -1,6 +1,35 @@
 $(document).ready(function () {
     console.log("loaded index.js");
 
+    $(".button-upload").click(function () {
+        let fd = new FormData();
+        $excel = $('.upload #upload-file')[0].files[0];
+        fd.append('excel', $excel);
+
+        $.ajax({
+            url: 'http://localhost:8000/api/excel',
+            type: 'post',
+            data: fd,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log("succes");
+                console.log(data)
+                Plotly.newPlot('plot', [{
+                    x: [1, 2, 3, 4, 5],
+                    y: [1, 2, 4, 8, 16],
+                    mode: 'lines+markers',
+                    type: 'scatter'
+                }]);
+            },
+            error: function (data) {
+                console.log("error");
+
+            }
+        });
+    });
+
     $(".button-cal").click(function () {
         $(".calculation-result").empty()
         $temp = $(".diffusivity-cal #temp").val();
@@ -33,12 +62,5 @@ $(document).ready(function () {
         $xcl_right = $(".plot-input #xcl_right").val();
         $xf_right = $(".plot-input #xf_right").val();
         $xoh_right = $(".plot-input #xoh_right").val();
-
-        Plotly.newPlot('plot', [{
-            x: [1, 2, 3, 4, 5],
-            y: [1, 2, 4, 8, 16],
-            mode: 'lines+markers',
-            type: 'scatter'
-        }])
     });
 });

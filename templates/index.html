@@ -17,6 +17,12 @@
 </head>
 
 <body>
+    <form class="upload">
+        <input type="file" id="upload-file">
+        <button class="button-upload" type="button">Upload</button>
+    </form>
+    <div id="plot"></div>
+
     <form class="diffusivity-cal" method="GET">
         temp:
         <input type="text" placeholder="900" id="temp">
@@ -26,30 +32,6 @@
     </form>
 
     <div class="calculation-result"></div>
-
-    <form class="plot-input">
-        xcl_ini:
-        <input type="text" id="xcl_ini">
-        xf_ini:
-        <input type="text" id="xf_ini">
-        xoh_ini:
-        <input type="text" id="xoh_ini"><br>
-        xcl_left:
-        <input type="text" id="xcl_left">
-        xf_left:
-        <input type="text" id="xf_left">
-        xoh_left:
-        <input type="text" id="xoh_left"><br>
-        xcl_right:
-        <input type="text" id="xcl_right">
-        xf_right:
-        <input type="text" id="xf_right">
-        xoh_right:
-        <input type="text" id="xoh_right"><br>
-        <button class="button-plot" type="button">Plot</button>
-    </form>
-
-    <div id="plot"></div>
 
 </body>
 
