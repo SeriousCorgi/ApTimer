@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import views
 
 from .forms import ExcelForm
-from .serializers import DiffSerializers
+from .serializers import DiffSerializers, IniBoundSerializers
 
 from .calculation.diffusivity import DiffFunc
 from .calculation.inibound import IniBound
@@ -63,17 +63,17 @@ class DiffView(views.APIView):
         })
 
 
-# class IniBoundView(views.APIView):
-#     def get(self, request):
-#         serializer = IniBoundSerializers(data=request.query_params)
-#         serializer.is_valid(raise_exception=True)
+class IniBoundView(views.APIView):
+    def get(self, request):
+        serializer = IniBoundSerializers(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
 
-#         data = serializer.validated_data
+        data = serializer.validated_data
 
-#         inibound = IniBound(data).show_input()
-#         return Response({
-#             "initial & boundary conditions": inibound
-#         })
+        inibound = IniBound(data).show_input()
+        return Response({
+            "initial & boundary conditions": inibound
+        })
 
 
 # class DisTimeView(views.APIView):
