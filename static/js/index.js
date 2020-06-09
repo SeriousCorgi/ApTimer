@@ -1,6 +1,7 @@
 $(document).ready(function () {
     console.log("loaded index.js");
     let uploaded = false;
+    let length = 0;
 
     $(".button-upload").click(function () {
         let fd = new FormData();
@@ -24,6 +25,7 @@ $(document).ready(function () {
                 var err_cl = data['err_cl'];
                 var err_f = data['err_f'];
                 var err_oh = data['err_oh'];
+                length = data['length'];
 
                 var lineCl = {
                     x: x,
@@ -55,6 +57,7 @@ $(document).ready(function () {
                 };
                 var layout = {
                     grid: { rows: 1, columns: 3, pattern: 'independent' },
+                    plot_bgcolor: "#d1eeff",
                     xaxis: { dtick: 2, title: { text: "Distance (µm)" } },
                     xaxis2: { dtick: 2, title: { text: "Distance (µm)" } },
                     xaxis3: { dtick: 2, title: { text: "Distance (µm)" } },
@@ -75,11 +78,11 @@ $(document).ready(function () {
 
     $(".button-cal").click(function () {
         if (uploaded) {
-            $(".calculation-result").empty()
+            $(".calculation-result").empty();
             $temp = $(".diffusivity-cal #temp").val();
             $tilt = $(".diffusivity-cal #tilt").val();
 
-            let url = "http://localhost:8000/api/diff"
+            let url = "http://localhost:8000/api/diff";
             $.get(url, { temp: $temp, tilt: $tilt }, function (data, status) {
                 console.log(status);
                 if (status == "success") {
@@ -99,7 +102,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".button-plot").click(function () {
+    $(".button-inibound").click(function () {
         if (uploaded) {
             $xcl_ini = $(".inibound #xcl_ini").val();
             $xf_ini = $(".inibound #xf_ini").val();
@@ -122,10 +125,35 @@ $(document).ready(function () {
                 xcl_right: $xcl_right,
                 xf_right: $xf_right,
                 xoh_right: $xoh_right,
-            }
+            };
             $.get(url, req_data, function (data, status) {
                 console.log(status);
-                if (status == "success") { }
+                console.log(data);
+                if (status == "success") {
+                    var inibound_cl = {
+                        x: [0, 0, length, length],
+                        y: data['inibound_cl'],
+                        line: { color: 'blue', width: 2 },
+                        showlegend: false,
+                    };
+                    var inibound_f = {
+                        x: [0, 0, length, length],
+                        y: data['inibound_f'],
+                        xaxis: 'x2',
+                        yaxis: 'y2',
+                        line: { color: 'blue', width: 2 },
+                        showlegend: false,
+                    };
+                    var inibound_oh = {
+                        x: [0, 0, length, length],
+                        y: data['inibound_oh'],
+                        xaxis: 'x3',
+                        yaxis: 'y3',
+                        line: { color: 'blue', width: 2 },
+                        showlegend: false,
+                    };
+                    Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
+                }
             })
         } else {
             alert("Please upload excel file");

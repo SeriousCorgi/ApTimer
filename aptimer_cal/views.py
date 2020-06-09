@@ -46,6 +46,7 @@ class ExcelView(views.APIView):
             'err_cl': err_cl,
             'err_f': err_f,
             'err_oh': err_oh,
+            'length': length-1,
         })
 
 
@@ -72,7 +73,9 @@ class IniBoundView(views.APIView):
 
         inibound = IniBound(data).show_input()
         return Response({
-            "initial & boundary conditions": inibound
+            "inibound_cl": inibound['xcl'],
+            "inibound_f": inibound['xf'],
+            "inibound_oh": inibound['xoh'],
         })
 
 

@@ -16,6 +16,6 @@ class IniBound:
         self.XOH_right = data["xoh_right"]
 
     def show_input(self):
-        return {"X(Cl)": [self.XCl_ini, self.XCl_left, self.XCl_right],
-                "X(F)": [self.XF_ini, self.XF_left, self.XF_right],
-                "X(OH)": [self.XOH_ini, self.XOH_left, self.XOH_right]}
+        return {"xcl": [self.XCl_left, self.XCl_ini, self.XCl_ini, self.XCl_right],
+                "xf": [self.XF_left, self.XF_ini, self.XF_ini, self.XF_right],
+                "xoh": [self.XOH_left, self.XOH_ini, self.XOH_ini, self.XOH_right]}
