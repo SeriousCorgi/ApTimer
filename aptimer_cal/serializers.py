@@ -23,7 +23,29 @@ class IniBoundSerializers(serializers.Serializer):
     xoh_right = serializers.FloatField()
 
 
-# class DisTimeSerializers(serializers.Serializer):
-#     dx = serializers.FloatField()          # distance step, dx (um)
-#     dt = serializers.FloatField()          # time step, dt (hour)
-#     iteration = serializers.IntegerField()
+class DisTimeSerializers(serializers.Serializer):
+    dx = serializers.FloatField()          # distance step, dx (um)
+    dt = serializers.FloatField()          # time step, dt (hour)
+    iteration = serializers.IntegerField()
+    length = serializers.IntegerField()
+
+    temp = serializers.IntegerField()
+    tilt = serializers.IntegerField()
+
+    dcl = serializers.FloatField()
+    df = serializers.FloatField()
+    doh = serializers.FloatField()
+
+    xcl_left = serializers.FloatField()
+    xf_left = serializers.FloatField()
+    xoh_left = serializers.FloatField()
+    xcl_right = serializers.FloatField()
+    xf_right = serializers.FloatField()
+    xoh_right = serializers.FloatField()
+
+    y_cl = serializers.ListField()
+    y_f = serializers.ListField()
+    y_oh = serializers.ListField()
+    err_cl = serializers.ListField()
+    err_f = serializers.ListField()
+    err_oh = serializers.ListField()
