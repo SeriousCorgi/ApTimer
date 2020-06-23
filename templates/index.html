@@ -10,42 +10,98 @@
     <!-- Jquery -->
     <script src="{% static 'js/utils/jquery-3.5.1.min.js' %}"></script>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/utils/bootstrap.min.js' %}"></script>
+
     <!-- Plotly -->
     <script src="{% static 'js/utils/plotly-latest.min.js' %}"></script>
 
     <script src="{% static 'js/index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 
 <body>
-    <form class="upload">
-        <input type="file" id="upload-file">
-        <button class="button-upload" type="button">Upload</button>
-    </form>
-    <div id="plot"></div>
+    <header class="container-fluid row justify-content-center mb-3">
+        <h2>APTIMER: timescales of magnetic processes modelled from volatile diffusion in apatite</h2>
+    </header>
 
-    <form class="diffusivity-cal" method="GET">
-        temp:
-        <input type="text" placeholder="900" id="temp">
-        tilt:
-        <input type="text" placeholder="17" id="tilt">
-        <button class="button-cal" type="button">Calculate</button>
-    </form>
+    <div class="container cal-wrapper">
 
-    <div class="calculation-result"></div>
+        <div class="instruction my-3 p-3">
+            <h4>Instruction:</h4>
+            <p>This model aims to constrain the diffusion timescale related to magma accent...</p>
+            <p><i>Li W., Costa F...</i></p>
+        </div>
 
-    <form action="" class="inibound">
-        xcl_ini: <input type="text" id="xcl_ini" placeholder="0.14"><br>
-        xf_ini: <input type="text" id="xf_ini" placeholder="0.69"><br>
-        xoh_ini: <input type="text" id="xoh_ini" placeholder="0.17"><br>
-        xcl_left: <input type="text" id="xcl_left" placeholder="0.22"><br>
-        xf_left: <input type="text" id="xf_left" placeholder="0.78"><br>
-        xoh_left: <input type="text" id="xoh_left" placeholder="0.0"><br>
-        xcl_right: <input type="text" id="xcl_right" placeholder="0.14"><br>
-        xf_right: <input type="text" id="xf_right" placeholder="0.69"><br>
-        xoh_right: <input type="text" id="xoh_right" placeholder="0.17"><br>
-        <button class="button-inibound" type="button">Plot</button>
-    </form>
+        <div class="input my-3 p-3">
 
+            <h4>Input:</h4>
+            <p>
+                <b>Diffusion profiles: </b>
+                <span>Please use the provided <a href="">data template</a> (.csv) to organise your data, and upload them
+                    using the blue button below.</span>
+            </p>
+            <form class="upload">
+                <input type="file" id="upload-file">
+                <button class="button-upload" type="button">Upload & Plot</button>
+            </form>
+
+            <div class="my-1 p-1" id="plot"></div>
+
+            <div class="row">
+                <div class="col">
+                    <form class="diffusivity-cal" method="GET">
+                        <p><b>Parameter use for diffusion modelling:</b></p>
+                        temp:
+                        <input type="text" placeholder="900" id="temp">
+                        tilt:
+                        <input type="text" placeholder="17" id="tilt">
+                        <button class="button-cal" type="button">Calculate</button>
+                    </form>
+                    <div class="calculation-result"></div>
+                </div>
+
+                <div class="col row">
+                    <form action="" class="inibound">
+                        <p><b>Initial & boundary conditions:</b></p>
+                        <div class="row pr-5 mb-3">
+                            <div class="col-2 pl-3">
+                                <br>
+                                <span>XCL</span><br>
+                                <span>XF</span><br>
+                                <span>XOH</span>
+                            </div>
+                            <div class="col">
+                                <small>Initial conditions</small>
+                                <input type="text" id="xcl_ini" placeholder="0.14"><br>
+                                <input type="text" id="xf_ini" placeholder="0.69"><br>
+                                <input type="text" id="xoh_ini" placeholder="0.17">
+                            </div>
+                            <div class="col">
+                                <small>Left boundary</small>
+                                <input type="text" id="xcl_left" placeholder="0.22"><br>
+                                <input type="text" id="xf_left" placeholder="0.78"><br>
+                                <input type="text" id="xoh_left" placeholder="0.0">
+                            </div>
+                            <div class="col">
+                                <small>Right boundary</small>
+                                <input type="text" id="xcl_right" placeholder="0.14"><br>
+                                <input type="text" id="xf_right" placeholder="0.69"><br>
+                                <input type="text" id="xoh_right" placeholder="0.17">
+                            </div>
+                        </div>
+                        <button class="button-inibound" type="button">Plot</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr style="border-top: 1px dashed">
+            <p><b>Distance & time steps:</b></p>
+
+        </div>
+
+    </div>
 </body>
 
 </html>
