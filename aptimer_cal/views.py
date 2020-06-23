@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import views
 
 from .forms import ExcelForm
-from .serializers import DiffSerializers, IniBoundSerializers
+from .serializers import DiffSerializers, IniBoundSerializers, DisTimeSerializers
 
 from .calculation.diffusivity import DiffFunc
 from .calculation.inibound import IniBound
@@ -79,14 +79,23 @@ class IniBoundView(views.APIView):
         })
 
 
-# class DisTimeView(views.APIView):
-#     def get(self, request):
-#         serializer = DisTimeSerializers(data=request.query_params)
-#         serializer.is_valid(raise_exception=True)
+class DisTimeView(views.APIView):
+    def get(self, request):
+        serializer = DisTimeSerializers(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
 
-#         data = serializer.validated_data
+        data = serializer.validated_data
 
-#         distime = DisTime(data).show_input()
-#         return Response({
-#             "distance & time steps": distime
-#         })
+        distime = DisTime(data).show_input()
+        return Response({
+                'x': distime['x'],
+                'red_cl': distime['red_cl'],
+                'red_f': distime['red_f'],
+                'red_oh': distime['red_oh'],
+                'min_Ans': distime['min_Ans'],
+                'max_Ans': distime['max_Ans'],
+                'best_fit_time': distime['best_fit_time'],
+                'best_day': distime['best_day'],
+                'plus': distime['plus'],
+                'minus': distime['minus'],
+        })

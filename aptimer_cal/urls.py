@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import DiffView, ExcelView, IniBoundView
+from .views import DiffView, ExcelView, IniBoundView, DisTimeView
 
 router = routers.DefaultRouter()
 
@@ -17,5 +17,5 @@ urlpatterns = [
     path('inibound', IniBoundView.as_view(), name="inibound"),
 
     # /distime?dx=0.5&dt=1&iteration=230
-    # path('distime', DisTimeView.as_view(), name="distime"),
+    path('distime', DisTimeView.as_view(), name="distime"),
 ]
