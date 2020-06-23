@@ -29,40 +29,43 @@
     <div class="container cal-wrapper">
 
         <div class="instruction my-3 p-3">
-            <h4>Instruction:</h4>
+            <h3>Instruction:</h3>
             <p>This model aims to constrain the diffusion timescale related to magma accent...</p>
             <p><i>Li W., Costa F...</i></p>
         </div>
 
         <div class="input my-3 p-3">
+            <h3>Input:</h3>
 
-            <h4>Input:</h4>
             <p>
                 <b>Diffusion profiles: </b>
                 <span>Please use the provided <a href="">data template</a> (.csv) to organise your data, and upload them
                     using the blue button below.</span>
             </p>
             <form class="upload">
-                <input type="file" id="upload-file">
-                <button class="button-upload" type="button">Upload & Plot</button>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="upload-file">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <button class="btn button-upload" type="button">Upload & Plot</button>
             </form>
 
-            <div class="my-1 p-1" id="plot"></div>
+            <div id="plot"></div>
 
             <div class="row">
-                <div class="col">
+                <div class="col position-relative">
                     <form class="diffusivity-cal" method="GET">
                         <p><b>Parameter use for diffusion modelling:</b></p>
                         temp:
                         <input type="text" placeholder="900" id="temp">
                         tilt:
                         <input type="text" placeholder="17" id="tilt">
-                        <button class="button-cal" type="button">Calculate</button>
                     </form>
                     <div class="calculation-result"></div>
+                    <button class="btn button-cal" type="button">Calculate</button>
                 </div>
 
-                <div class="col row">
+                <div class="col position-relative">
                     <form action="" class="inibound">
                         <p><b>Initial & boundary conditions:</b></p>
                         <div class="row pr-5 mb-3">
@@ -91,17 +94,29 @@
                                 <input type="text" id="xoh_right" placeholder="0.17">
                             </div>
                         </div>
-                        <button class="button-inibound" type="button">Plot</button>
                     </form>
+                    <div id="spacer" style="width: 200px; height: 50px; float:left; display:inline-block"></div>
+                    <button class="btn button-inibound" type="button">Plot</button>
                 </div>
             </div>
 
             <hr style="border-top: 1px dashed">
             <p><b>Distance & time steps:</b></p>
+        </div>
 
+        <div class="model-fits my-3 p-3">
+            <h3>Model fits:</h3>
         </div>
 
     </div>
 </body>
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 
 </html>
