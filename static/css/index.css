@@ -1,0 +1,38 @@
+body {
+    background-color: #a598ee;
+    background-size: cover;
+    background-position: center center;
+}
+
+.cal-wrapper > div {
+    background: #fff;
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+/* Input */
+div.input input[type=text] {
+    width: 80px;
+    padding: 1px 3px;
+    margin: 1px;
+    font-size: 12px;
+}
+
+div.input button {
+    background: #63c76a;
+}
+
+div.input button:hover {
+    background: #50c058;
+}
+
+div.input .upload div.custom-file {
+    max-width: 30%;
+    margin-right: 30px;
+}
+
+div.input .button-cal, div.input .button-inibound {
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+}
