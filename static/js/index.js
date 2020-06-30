@@ -11,6 +11,9 @@ $(document).ready(function () {
     let err_cl = [];
     let err_f = [];
     let err_oh = [];
+    let num_upload = 0;
+    let num_plot = 0;
+    let num_run = 0;
 
     $(".button-upload").click(function () {
         let fd = new FormData();
@@ -27,6 +30,13 @@ $(document).ready(function () {
             success: function (data) {
                 console.log("success");
                 console.log(data);
+
+                num_upload += 1;
+                if (num_upload>1) {
+                    num_upload = 1;
+                    num_plot = 0;
+                    num_run = 0;
+                }
                 var x = data['x'];
                 y_cl = data['y_cl'];
                 y_f = data['y_f'];
@@ -143,6 +153,8 @@ $(document).ready(function () {
                 console.log(status);
                 console.log(data);
                 if (status == "success") {
+                    num_plot += 1;
+                    console.log(num_plot);
                     var inibound_cl = {
                         x: [0, 0, length, length],
                         y: data['inibound_cl'],
@@ -168,7 +180,13 @@ $(document).ready(function () {
                         line: {color: 'blue', dash: 'dash'},
                         showlegend: false,
                     };
-                    Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
+                    if (num_plot>1) {
+                        Plotly.deleteTraces('plot', [3, 4, 5]);
+                        Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
+                    }
+                    else {
+                        Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
+                    }
                 }
             })
         } else {
@@ -230,7 +248,9 @@ $(document).ready(function () {
                 console.log(status);
                 console.log(data);
                 if (status == "success") {
-                    let x = data['x']
+                    num_run += 1;
+                    console.log(num_run);
+                    let x = data['x'];
                     let red_cl = {
                         x: x,
                         y: data['red_cl'],
@@ -275,13 +295,27 @@ $(document).ready(function () {
                         name: 'Maximum boundary',
                         line: {color: 'green', dash: 'dash'},
                     };
-                    Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
 
-                    $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
-                        "<b>Uncertainty:</b> <br>" +
-                        "Plus: " + data['plus'] + "<br>" +
-                        "Minus: " + data['minus']
-                    $(".model-result").append($new_div);
+                    if (num_run>1){
+                        Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
+                        Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
+                        $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
+                            "<b>Uncertainty:</b> <br>" +
+                            "Plus: " + data['plus'] + "<br>" +
+                            "Minus: " + data['minus']
+                        $(".model-result").text("");
+                        $(".model-result").append("<h3>Model fits:</h3>");
+                        $(".model-result").append($new_div);
+                    } else {
+                        Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
+                        $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
+                            "<b>Uncertainty:</b> <br>" +
+                            "Plus: " + data['plus'] + "<br>" +
+                            "Minus: " + data['minus']
+                        $(".model-result").text("");
+                        $(".model-result").append("<h3>Model fits:</h3>");
+                        $(".model-result").append($new_div);
+                    }
                 }
             })
         } else {

@@ -17,6 +17,9 @@ class DisTime:
         self.temp = data['temp']
         self.tilt = data['tilt']
 
+        self.xcl_ini = data['xcl_ini']
+        self.xf_ini = data['xf_ini']
+        self.xoh_ini = data['xoh_ini']
         self.xcl_left = data["xcl_left"]
         self.xcl_right = data["xcl_right"]
         self.xf_left = data["xf_left"]
@@ -47,11 +50,11 @@ class DisTime:
 
         conc_i = np.zeros((3, 2))  # array 3x2
         conc_i[0][0] = self.xcl_left
-        conc_i[0][1] = self.xcl_right
+        conc_i[0][1] = self.xcl_ini
         conc_i[1][0] = self.xf_left
-        conc_i[1][1] = self.xf_right
+        conc_i[1][1] = self.xf_ini
         conc_i[2][0] = self.xoh_left
-        conc_i[2][1] = self.xoh_right
+        conc_i[2][1] = self.xoh_ini
         a = [0, self.length]
 
         component = 3

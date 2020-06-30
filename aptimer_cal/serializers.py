@@ -36,6 +36,9 @@ class DisTimeSerializers(serializers.Serializer):
     df = serializers.FloatField()
     doh = serializers.FloatField()
 
+    xcl_ini = serializers.FloatField()
+    xf_ini = serializers.FloatField()
+    xoh_ini = serializers.FloatField()
     xcl_left = serializers.FloatField()
     xf_left = serializers.FloatField()
     xoh_left = serializers.FloatField()
