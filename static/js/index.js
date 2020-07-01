@@ -5,13 +5,13 @@ $(document).ready(function () {
     let dcl = 0;
     let df = 0;
     let doh = 0;
+    let x = [];
     let y_cl = [];
     let y_f = [];
     let y_oh = [];
     let err_cl = [];
     let err_f = [];
     let err_oh = [];
-    let num_upload = 0;
     let num_plot = 0;
     let num_run = 0;
 
@@ -31,13 +31,7 @@ $(document).ready(function () {
                 console.log("success");
                 console.log(data);
 
-                num_upload += 1;
-                if (num_upload>1) {
-                    num_upload = 1;
-                    num_plot = 0;
-                    num_run = 0;
-                }
-                var x = data['x'];
+                x = data['x'];
                 y_cl = data['y_cl'];
                 y_f = data['y_f'];
                 y_oh = data['y_oh'];
@@ -137,7 +131,7 @@ $(document).ready(function () {
             $xf_right = $(".inibound #xf_right").val();
             $xoh_right = $(".inibound #xoh_right").val();
 
-            let url = "http://localhost:8000/api/inibound"
+            let url = "http://localhost:8000/api/inibound";
             let req_data = {
                 xcl_ini: $xcl_ini,
                 xf_ini: $xf_ini,
@@ -154,6 +148,10 @@ $(document).ready(function () {
                 console.log(data);
                 if (status == "success") {
                     num_plot += 1;
+                    if (num_plot>1) {
+                        num_plot = 1;
+                        num_run = 0;
+                    }
                     console.log(num_plot);
                     var inibound_cl = {
                         x: [0, 0, length, length],
@@ -180,13 +178,49 @@ $(document).ready(function () {
                         line: {color: 'blue', dash: 'dash'},
                         showlegend: false,
                     };
-                    if (num_plot>1) {
-                        Plotly.deleteTraces('plot', [3, 4, 5]);
-                        Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
-                    }
-                    else {
-                        Plotly.addTraces('plot', [inibound_cl, inibound_f, inibound_oh]);
-                    }
+                    var lineCl = {
+                        x: x,
+                        y: y_cl,
+                        error_y: { array: err_cl, visible: true, color: 'black' },
+                        name: 'Natural data',
+                        mode: 'lines+markers',
+                        line: { color: 'black', dash: 'dash', width: 2 },
+                        type: 'scatter',
+                    };
+                    var lineF = {
+                        x: x,
+                        y: y_f,
+                        xaxis: 'x2',
+                        yaxis: 'y2',
+                        error_y: { array: err_f, visible: true, color: 'black' },
+                        mode: 'lines+markers',
+                        line: { color: 'black', dash: 'dash', width: 2 },
+                        type: 'scatter',
+                        showlegend: false,
+                    };
+                    var lineOH = {
+                        x: x,
+                        y: y_oh,
+                        xaxis: 'x3',
+                        yaxis: 'y3',
+                        error_y: { array: err_oh, visible: true, color: 'black' },
+                        mode: 'lines+markers',
+                        line: { color: 'black', dash: 'dash', width: 2 },
+                        type: 'scatter',
+                        showlegend: false,
+                    };
+                    var layout = {
+                        grid: { rows: 1, columns: 3, pattern: 'independent' },
+                        plot_bgcolor: "#ccedff",
+                        xaxis: { dtick: 2, title: { text: "Distance (µm)" } },
+                        xaxis2: { dtick: 2, title: { text: "Distance (µm)" } },
+                        xaxis3: { dtick: 2, title: { text: "Distance (µm)" } },
+                        yaxis: { dtick: 0.01, title: { text: "X<sub>Cl</sub>" } },
+                        yaxis2: { dtick: 0.05, title: { text: "X<sub>F</sub>" } },
+                        yaxis3: { dtick: 0.05, title: { text: "X<sub>OH</sub>" } },
+                        legend: {orientation: 'h', y: -0.25},
+                    };
+                    Plotly.newPlot('plot', [lineCl, lineF, lineOH, inibound_cl, inibound_f, inibound_oh], layout);
                 }
             })
         } else {
@@ -213,7 +247,7 @@ $(document).ready(function () {
             $xf_right = $(".inibound #xf_right").val();
             $xoh_right = $(".inibound #xoh_right").val();
 
-            let url = "http://localhost:8000/api/distime"
+            let url = "http://localhost:8000/api/distime";
             let req_data = {
                 dx: $dx,
                 dt: $dt,
@@ -302,19 +336,17 @@ $(document).ready(function () {
                         $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
                             "<b>Uncertainty:</b> <br>" +
                             "Plus: " + data['plus'] + "<br>" +
-                            "Minus: " + data['minus']
+                            "Minus: " + data['minus'];
                         $(".model-result").text("");
-                        $(".model-result").append("<h3>Model fits:</h3>");
-                        $(".model-result").append($new_div);
+                        $(".model-result").append("<h3>Model fits:</h3>"+$new_div);
                     } else {
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
                         $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
                             "<b>Uncertainty:</b> <br>" +
                             "Plus: " + data['plus'] + "<br>" +
-                            "Minus: " + data['minus']
+                            "Minus: " + data['minus'];
                         $(".model-result").text("");
-                        $(".model-result").append("<h3>Model fits:</h3>");
-                        $(".model-result").append($new_div);
+                        $(".model-result").append("<h3>Model fits:</h3>"+$new_div);
                     }
                 }
             })
