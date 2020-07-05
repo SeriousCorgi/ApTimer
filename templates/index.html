@@ -23,24 +23,32 @@
 
 <body>
     <header class="container-fluid row justify-content-center mb-3">
-        <h2>APTIMER: timescales of magnetic processes modelled from volatile diffusion in apatite</h2>
+        <h1>ApTimer: a calculator of the timescale of F-Cl-OH diffusion in apatite</h1>
     </header>
 
     <div class="container cal-wrapper">
 
         <div class="instruction my-3 p-3">
             <h3>Instruction:</h3>
-            <p>This model aims to constrain the diffusion timescale related to magma accent...</p>
-            <p><i>Li W., Costa F...</i></p>
+            <p>This calculator is developed for estimating the timescale of multicomponent (F-Cl- OH) diffusion in
+                apatite, based on
+                the observation and analysis of compositional variation in F/Cl/OH in the natural apatite.<br>
+                The calculated diffusion times can be related to the corresponding magmatic processes, such as the
+                pre-eruptive magma
+                ascent.<br>
+                Detailed computation methods and applications can be found in the paper below:</p>
+            <p><i>Li, W., Chakraborty, S., Nagashima, K., Costa, F. Multicomponent diffusion of F, Cl and OH in apatite
+                    with application to
+                    magma ascent rates. EPSL (in review)</i></p>
         </div>
 
         <div class="input my-3 p-3">
             <h3>Input:</h3>
 
             <p>
-                <b>Diffusion profiles: </b>
+                <b>Determined compositional profiles: </b>
                 <span>Please use the provided <a href="">data template</a> (.csv) to organise your data, and upload them
-                    using the blue button below.</span>
+                    using the green button below.</span>
             </p>
             <form class="upload">
                 <div class="custom-file">
@@ -56,10 +64,17 @@
                 <div class="col position-relative">
                     <form class="diffusivity-cal" method="GET">
                         <p><b>Parameter use for diffusion modelling:</b></p>
-                        temp:
-                        <input type="text" placeholder="900" id="temp">
-                        tilt:
-                        <input type="text" placeholder="17" id="tilt">
+
+                        <table class="table table-borderless table-sm col-lg-11">
+                            <tr>
+                                <td>Temperature:</td>
+                                <td><input type="text" placeholder="900" id="temp"></td>
+                            </tr>
+                            <tr>
+                                <td>Angle between traverse and the c- axis of apatite:</td>
+                                <td><input type="text" placeholder="17" id="tilt"></td>
+                            </tr>
+                        </table>
                     </form>
                     <div class="calculation-result"></div>
                     <button class="btn button-cal" type="button">Calculate</button>
@@ -68,34 +83,36 @@
                 <div class="col position-relative">
                     <form action="" class="inibound">
                         <p><b>Initial & boundary conditions:</b></p>
-                        <div class="row pr-5 mb-3">
-                            <div class="col-2 pl-3">
-                                <br>
-                                <span>X<sub>Cl</sub></span><br>
-                                <span>X<sub>F</sub></span><br>
-                                <span>X<sub>OH</sub></span>
-                            </div>
-                            <div class="col">
-                                <small>Initial conditions</small>
-                                <input type="text" id="xcl_ini" placeholder="0.14"><br>
-                                <input type="text" id="xf_ini" placeholder="0.69"><br>
-                                <input type="text" id="xoh_ini" placeholder="0.17">
-                            </div>
-                            <div class="col">
-                                <small>Left boundary</small>
-                                <input type="text" id="xcl_left" placeholder="0.22"><br>
-                                <input type="text" id="xf_left" placeholder="0.78"><br>
-                                <input type="text" id="xoh_left" placeholder="0.0">
-                            </div>
-                            <div class="col">
-                                <small>Right boundary</small>
-                                <input type="text" id="xcl_right" placeholder="0.14"><br>
-                                <input type="text" id="xf_right" placeholder="0.69"><br>
-                                <input type="text" id="xoh_right" placeholder="0.17">
-                            </div>
-                        </div>
+                        <table class="table table-borderless table-sm">
+                            <thead>
+                                <td scope="col"></td>
+                                <td scope="col">Initial conditions</td>
+                                <td scope="col">Left boundary</td>
+                                <td scope="col">Right boundary</td>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">X<sub>Cl</sub></td>
+                                    <td><input type="text" id="xcl_ini" placeholder="0.14"></td>
+                                    <td><input type="text" id="xcl_left" placeholder="0.22"></td>
+                                    <td><input type="text" id="xcl_right" placeholder="0.14"></td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">X<sub>F</sub></td>
+                                    <td><input type="text" id="xf_ini" placeholder="0.69"></td>
+                                    <td><input type="text" id="xf_left" placeholder="0.78"></td>
+                                    <td><input type="text" id="xf_right" placeholder="0.69"></td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">X<sub>OH</sub></td>
+                                    <td><input type="text" id="xoh_ini" placeholder="0.17"></td>
+                                    <td><input type="text" id="xoh_left" placeholder="0.0"></td>
+                                    <td><input type="text" id="xoh_right" placeholder="0.17"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </form>
-                    <div id="spacer" style="width: 200px; height: 50px; float:left; display:inline-block"></div>
+                    <div id="spacer" style="width: 200px; height: 100px; float:left; display:inline-block"></div>
                     <button class="btn button-inibound" type="button">Plot</button>
                 </div>
             </div>
@@ -104,9 +121,24 @@
 
             <p><b>Distance & time steps:</b></p>
             <form action="" class="distime">
-                Distance step, dx: <input type="text" placeholder="1" id="dx"> µm <br>
-                Time step, dt: <input type="text" placeholder="1" id="dt"> hours <br>
-                Iteration: <input type="text" placeholder="230" id="iteration"><br>
+                <div class="col-lg-4 col-md-8 p-0">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                            <tr>
+                                <td>Distance step, dx:</td>
+                                <td><input type="text" placeholder="1" id="dx"> µm</td>
+                            </tr>
+                            <tr>
+                                <td>Time step, dt:</td>
+                                <td><input type="text" placeholder="1" id="dt"> hours</td>
+                            </tr>
+                            <tr>
+                                <td>Iteration:</td>
+                                <td><input type="text" placeholder="230" id="iteration"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <button class="btn button-distime mt-3" type="button">Run</button>
             </form>
         </div>

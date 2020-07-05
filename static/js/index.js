@@ -74,13 +74,13 @@ $(document).ready(function () {
                 var layout = {
                     grid: { rows: 1, columns: 3, pattern: 'independent' },
                     plot_bgcolor: "#ccedff",
-                    xaxis: { dtick: 2, title: { text: "Distance (µm)" } },
+                    xaxis: { dtick: 2, title: { text: "Distance (µm)" }, },
                     xaxis2: { dtick: 2, title: { text: "Distance (µm)" } },
                     xaxis3: { dtick: 2, title: { text: "Distance (µm)" } },
                     yaxis: { dtick: 0.01, title: { text: "X<sub>Cl</sub>" } },
                     yaxis2: { dtick: 0.05, title: { text: "X<sub>F</sub>" } },
                     yaxis3: { dtick: 0.05, title: { text: "X<sub>OH</sub>" } },
-                    legend: {orientation: 'h', y: -0.25},
+                    legend: { orientation: 'h', y: -0.25 },
                 };
 
                 Plotly.newPlot('plot', [lineCl, lineF, lineOH], layout);
@@ -108,9 +108,11 @@ $(document).ready(function () {
                     df = diff['D(F)'];
                     doh = diff['D(OH)'];
 
-                    $new_div = "D<sub>Cl</sub>: " + dcl + "<br>" +
-                        "D<sub>F</sub>: " + df + "<br>" +
-                        "D<sub>OH</sub>: " + doh
+                    $new_div = "<table class='table table-bordered table-sm col-lg-5 col-md-8'>" +
+                        "<tr><th>D<sub>F</sub>:</th><td>" + dcl + " m<sup>2</sup>/s</td></tr>" +
+                        "<tr><th>D<sub>F</sub>:</th><td>" + df + " m<sup>2</sup>/s</td></tr>" +
+                        "<tr><th>D<sub>OH</sub>:</th><td>" + doh + " m<sup>2</sup>/s</td></tr>" +
+                        "</table>"
                     $(".calculation-result").append($new_div);
                 }
             });
@@ -131,98 +133,111 @@ $(document).ready(function () {
             $xf_right = $(".inibound #xf_right").val();
             $xoh_right = $(".inibound #xoh_right").val();
 
-            let url = "http://localhost:8000/api/inibound";
-            let req_data = {
-                xcl_ini: $xcl_ini,
-                xf_ini: $xf_ini,
-                xoh_ini: $xoh_ini,
-                xcl_left: $xcl_left,
-                xf_left: $xf_left,
-                xoh_left: $xoh_left,
-                xcl_right: $xcl_right,
-                xf_right: $xf_right,
-                xoh_right: $xoh_right,
-            };
-            $.get(url, req_data, function (data, status) {
-                console.log(status);
-                console.log(data);
-                if (status == "success") {
-                    num_plot += 1;
-                    if (num_plot>1) {
-                        num_plot = 1;
-                        num_run = 0;
+            let sum_ini = parseFloat($xcl_ini) + parseFloat($xf_ini) + parseFloat($xoh_ini);
+            let sum_left = parseFloat($xcl_left) + parseFloat($xf_left) + parseFloat($xoh_left);
+            let sum_right = parseFloat($xcl_right) + parseFloat($xf_right) + parseFloat($xoh_right);
+
+            console.log(sum_ini, sum_left, sum_right);
+            if (sum_ini <= 1 && sum_left <= 1 && sum_right <= 1) {
+                let url = "http://localhost:8000/api/inibound";
+                let req_data = {
+                    xcl_ini: $xcl_ini,
+                    xf_ini: $xf_ini,
+                    xoh_ini: $xoh_ini,
+                    xcl_left: $xcl_left,
+                    xf_left: $xf_left,
+                    xoh_left: $xoh_left,
+                    xcl_right: $xcl_right,
+                    xf_right: $xf_right,
+                    xoh_right: $xoh_right,
+                };
+                $.get(url, req_data, function (data, status) {
+                    console.log(status);
+                    console.log(data);
+                    if (status == "success") {
+                        num_plot += 1;
+                        if (num_plot > 1) {
+                            num_plot = 1;
+                            num_run = 0;
+                        }
+                        console.log(num_plot);
+                        var inibound_cl = {
+                            x: [0, 0, length, length],
+                            y: data['inibound_cl'],
+                            type: 'scatter',
+                            name: 'Initial boundary and conditions',
+                            line: { color: 'blue', dash: 'dash' },
+                        };
+                        var inibound_f = {
+                            x: [0, 0, length, length],
+                            y: data['inibound_f'],
+                            type: 'scatter',
+                            xaxis: 'x2',
+                            yaxis: 'y2',
+                            line: { color: 'blue', dash: 'dash' },
+                            showlegend: false,
+                        };
+                        var inibound_oh = {
+                            x: [0, 0, length, length],
+                            y: data['inibound_oh'],
+                            type: 'scatter',
+                            xaxis: 'x3',
+                            yaxis: 'y3',
+                            line: { color: 'blue', dash: 'dash' },
+                            showlegend: false,
+                        };
+                        var lineCl = {
+                            x: x,
+                            y: y_cl,
+                            error_y: { array: err_cl, visible: true, color: 'black' },
+                            name: 'Natural data',
+                            mode: 'lines+markers',
+                            line: { color: 'black', dash: 'dash', width: 2 },
+                            type: 'scatter',
+                        };
+                        var lineF = {
+                            x: x,
+                            y: y_f,
+                            xaxis: 'x2',
+                            yaxis: 'y2',
+                            error_y: { array: err_f, visible: true, color: 'black' },
+                            mode: 'lines+markers',
+                            line: { color: 'black', dash: 'dash', width: 2 },
+                            type: 'scatter',
+                            showlegend: false,
+                        };
+                        var lineOH = {
+                            x: x,
+                            y: y_oh,
+                            xaxis: 'x3',
+                            yaxis: 'y3',
+                            error_y: { array: err_oh, visible: true, color: 'black' },
+                            mode: 'lines+markers',
+                            line: { color: 'black', dash: 'dash', width: 2 },
+                            type: 'scatter',
+                            showlegend: false,
+                        };
+                        var layout = {
+                            grid: { rows: 1, columns: 3, pattern: 'independent' },
+                            plot_bgcolor: "#ccedff",
+                            xaxis: { dtick: 2, title: { text: "Distance (µm)" } },
+                            xaxis2: { dtick: 2, title: { text: "Distance (µm)" } },
+                            xaxis3: { dtick: 2, title: { text: "Distance (µm)" } },
+                            yaxis: { dtick: 0.01, title: { text: "X<sub>Cl</sub>" } },
+                            yaxis2: { dtick: 0.05, title: { text: "X<sub>F</sub>" } },
+                            yaxis3: { dtick: 0.05, title: { text: "X<sub>OH</sub>" } },
+                            legend: { orientation: 'h', y: -0.25 },
+                        };
+                        Plotly.newPlot('plot', [lineCl, lineF, lineOH, inibound_cl, inibound_f, inibound_oh], layout);
                     }
-                    console.log(num_plot);
-                    var inibound_cl = {
-                        x: [0, 0, length, length],
-                        y: data['inibound_cl'],
-                        type: 'scatter',
-                        name: 'Initial boundary and conditions',
-                        line: {color: 'blue', dash: 'dash'},
-                    };
-                    var inibound_f = {
-                        x: [0, 0, length, length],
-                        y: data['inibound_f'],
-                        type: 'scatter',
-                        xaxis: 'x2',
-                        yaxis: 'y2',
-                        line: {color: 'blue', dash: 'dash'},
-                        showlegend: false,
-                    };
-                    var inibound_oh = {
-                        x: [0, 0, length, length],
-                        y: data['inibound_oh'],
-                        type: 'scatter',
-                        xaxis: 'x3',
-                        yaxis: 'y3',
-                        line: {color: 'blue', dash: 'dash'},
-                        showlegend: false,
-                    };
-                    var lineCl = {
-                        x: x,
-                        y: y_cl,
-                        error_y: { array: err_cl, visible: true, color: 'black' },
-                        name: 'Natural data',
-                        mode: 'lines+markers',
-                        line: { color: 'black', dash: 'dash', width: 2 },
-                        type: 'scatter',
-                    };
-                    var lineF = {
-                        x: x,
-                        y: y_f,
-                        xaxis: 'x2',
-                        yaxis: 'y2',
-                        error_y: { array: err_f, visible: true, color: 'black' },
-                        mode: 'lines+markers',
-                        line: { color: 'black', dash: 'dash', width: 2 },
-                        type: 'scatter',
-                        showlegend: false,
-                    };
-                    var lineOH = {
-                        x: x,
-                        y: y_oh,
-                        xaxis: 'x3',
-                        yaxis: 'y3',
-                        error_y: { array: err_oh, visible: true, color: 'black' },
-                        mode: 'lines+markers',
-                        line: { color: 'black', dash: 'dash', width: 2 },
-                        type: 'scatter',
-                        showlegend: false,
-                    };
-                    var layout = {
-                        grid: { rows: 1, columns: 3, pattern: 'independent' },
-                        plot_bgcolor: "#ccedff",
-                        xaxis: { dtick: 2, title: { text: "Distance (µm)" } },
-                        xaxis2: { dtick: 2, title: { text: "Distance (µm)" } },
-                        xaxis3: { dtick: 2, title: { text: "Distance (µm)" } },
-                        yaxis: { dtick: 0.01, title: { text: "X<sub>Cl</sub>" } },
-                        yaxis2: { dtick: 0.05, title: { text: "X<sub>F</sub>" } },
-                        yaxis3: { dtick: 0.05, title: { text: "X<sub>OH</sub>" } },
-                        legend: {orientation: 'h', y: -0.25},
-                    };
-                    Plotly.newPlot('plot', [lineCl, lineF, lineOH, inibound_cl, inibound_f, inibound_oh], layout);
-                }
-            })
+                })
+            } else if (sum_ini > 1) {
+                alert("Sum of initial condition must <= 1")
+            } else if (sum_left > 1) {
+                alert("Sum of left boundary must <= 1")
+            } else if (sum_right > 1) {
+                alert("Sum of right boundary must <= 1")
+            }
         } else {
             alert("Please upload excel file");
         }
@@ -291,7 +306,7 @@ $(document).ready(function () {
                         type: 'scatter',
                         mode: 'lines',
                         name: 'Best-fit line',
-                        line: {color: 'red'},
+                        line: { color: 'red' },
                     };
                     let red_f = {
                         x: x,
@@ -300,7 +315,7 @@ $(document).ready(function () {
                         mode: 'lines',
                         xaxis: 'x2',
                         yaxis: 'y2',
-                        line: {color: 'red'},
+                        line: { color: 'red' },
                         showlegend: false,
                     };
                     let red_oh = {
@@ -310,7 +325,7 @@ $(document).ready(function () {
                         mode: 'lines',
                         xaxis: 'x3',
                         yaxis: 'y3',
-                        line: {color: 'red'},
+                        line: { color: 'red' },
                         showlegend: false,
                     };
                     let min_cl = {
@@ -319,7 +334,7 @@ $(document).ready(function () {
                         type: 'scatter',
                         mode: 'lines',
                         name: 'Minimum boundary',
-                        line: {color: 'green', dash: 'dash'},
+                        line: { color: 'green', dash: 'dash' },
                     };
                     let max_cl = {
                         x: x,
@@ -327,26 +342,26 @@ $(document).ready(function () {
                         type: 'scatter',
                         mode: 'lines',
                         name: 'Maximum boundary',
-                        line: {color: 'green', dash: 'dash'},
+                        line: { color: 'green', dash: 'dash' },
                     };
 
-                    if (num_run>1){
+                    if (num_run > 1) {
                         Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
-                            "<b>Uncertainty:</b> <br>" +
-                            "Plus: " + data['plus'] + "<br>" +
-                            "Minus: " + data['minus'];
+                        $new_div = "<b>Best-fit time and uncertainty: </b>" + data['best_fit_time'] + " hours (+"
+                            + data['plus'] + "/-"
+                            + data['minus'] + ") ~"
+                            + data["best_day"] + " days"
                         $(".model-result").text("");
-                        $(".model-result").append("<h3>Model fits:</h3>"+$new_div);
+                        $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     } else {
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<b>Best-fit time: </b>" + data['best_fit_time'] + " hours (~" + data["best_day"]+ " days) <br>" +
-                            "<b>Uncertainty:</b> <br>" +
-                            "Plus: " + data['plus'] + "<br>" +
-                            "Minus: " + data['minus'];
+                        $new_div = "<b>Best-fit time and uncertainty: </b>" + data['best_fit_time'] + " hours (+"
+                            + data['plus'] + "/-"
+                            + data['minus'] + ") ~"
+                            + data["best_day"] + " days"
                         $(".model-result").text("");
-                        $(".model-result").append("<h3>Model fits:</h3>"+$new_div);
+                        $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     }
                 }
             })
