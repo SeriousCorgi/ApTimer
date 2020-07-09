@@ -108,10 +108,10 @@ $(document).ready(function () {
                     df = diff['D(F)'];
                     doh = diff['D(OH)'];
 
-                    $new_div = "<table class='table table-bordered table-sm col-lg-5 col-md-8'>" +
-                        "<tr><th>D<sub>F</sub>:</th><td>" + dcl + " m<sup>2</sup>/s</td></tr>" +
-                        "<tr><th>D<sub>F</sub>:</th><td>" + df + " m<sup>2</sup>/s</td></tr>" +
-                        "<tr><th>D<sub>OH</sub>:</th><td>" + doh + " m<sup>2</sup>/s</td></tr>" +
+                    $new_div = "<table class='table table-sm col-lg-5 col-md-8'>" +
+                        "<tr><th>D<sub>Cl</sub>:</th><td>" + dcl + "</td><td>m<sup>2</sup>/s</td></tr>" +
+                        "<tr><th>D<sub>F</sub>:</th><td>" + df + "</td><td>m<sup>2</sup>/s</td></tr>" +
+                        "<tr><th>D<sub>OH</sub>:</th><td>" + doh + "</td><td>m<sup>2</sup>/s</td></tr>" +
                         "</table>"
                     $(".calculation-result").append($new_div);
                 }
@@ -348,18 +348,24 @@ $(document).ready(function () {
                     if (num_run > 1) {
                         Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<b>Best-fit time and uncertainty: </b>" + data['best_fit_time'] + " hours (+"
+                        $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
+                            + "<tr><th>Best-fit time and uncertainty:</th><td>"
+                            + data['best_fit_time'] + " (+"
                             + data['plus'] + "/-"
-                            + data['minus'] + ") ~"
-                            + data["best_day"] + " days"
+                            + data['minus'] + ") hours</td></tr>"
+                            + "<tr><th></th><td>~" + data["best_day"] + " days</td></tr>"
+                            + "</table>"
                         $(".model-result").text("");
                         $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     } else {
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<b>Best-fit time and uncertainty: </b>" + data['best_fit_time'] + " hours (+"
+                        $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
+                            + "<tr><th>Best-fit time and uncertainty:</th><td>"
+                            + data['best_fit_time'] + " (+"
                             + data['plus'] + "/-"
-                            + data['minus'] + ") ~"
-                            + data["best_day"] + " days"
+                            + data['minus'] + ") hours</td></tr>"
+                            + "<tr><th></th><td>~" + data["best_day"] + " days</td></tr>"
+                            + "</table>"
                         $(".model-result").text("");
                         $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     }

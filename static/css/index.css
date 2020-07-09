@@ -36,3 +36,22 @@ div.input .button-cal, div.input .button-inibound {
     bottom: 0;
     left: 1rem;
 }
+
+div.input .calculation-result td, div.input .calculation-result th {
+    border: 1px solid #dddddd;
+}
+
+div.input .calculation-result td:last-child {
+    border :none;
+}
+
+/* Model-result */
+
+div.model-result td, div.model-result th{
+    border: 1px solid #dddddd;
+    text-align: left;
+}
+
+div.model-result th{
+    border: none;
+}
