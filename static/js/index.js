@@ -352,10 +352,10 @@ $(document).ready(function () {
                             + "<tr><th>Best-fit time and uncertainty:</th><td>"
                             + data['best_fit_time'] + " (+"
                             + data['plus'] + "/-"
-                            + data['minus'] + ") hours</td></tr>"
-                            + "<tr><th></th><td>~" + data["best_day"] + " days</td></tr>"
+                            + data['minus'] + ")</td><td> hours</td></tr>"
+                            + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
                             + "</table>"
-                        $(".model-result").text("");
+                        $(".model-result").empty();
                         $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     } else {
                         Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
@@ -363,10 +363,10 @@ $(document).ready(function () {
                             + "<tr><th>Best-fit time and uncertainty:</th><td>"
                             + data['best_fit_time'] + " (+"
                             + data['plus'] + "/-"
-                            + data['minus'] + ") hours</td></tr>"
-                            + "<tr><th></th><td>~" + data["best_day"] + " days</td></tr>"
+                            + data['minus'] + ")</td><td> hours</td></tr>"
+                            + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
                             + "</table>"
-                        $(".model-result").text("");
+                        $(".model-result").empty();
                         $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                     }
                 }
