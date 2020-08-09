@@ -60,3 +60,20 @@ div.model-result td, div.model-result th{
 div.model-result th, div.model-result td:last-child{
     border: none;
 }
+
+/* Footer */
+footer.page-footer {
+    font-size: 12px;
+    background-color: #2e2d36;
+    color: #fff
+}
+
+footer.page-footer .circle {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    background: #63c76a;
+    color: #fff;
+    text-align: center;
+}
