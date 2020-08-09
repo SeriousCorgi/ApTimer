@@ -67,13 +67,3 @@ footer.page-footer {
     background-color: #2e2d36;
     color: #fff
 }
-
-footer.page-footer .circle {
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    padding: 8px;
-    background: #63c76a;
-    color: #fff;
-    text-align: center;
-}
