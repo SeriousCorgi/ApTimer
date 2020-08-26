@@ -30,25 +30,28 @@
 
         <div class="instruction my-3 p-3">
             <h3>Instruction:</h3>
-            <p>This calculator is developed for estimating the timescale of multicomponent (F-Cl- OH) diffusion in
-                apatite, based on
-                the observation and analysis of compositional variation in F/Cl/OH in the natural apatite.<br>
-                The calculated diffusion times can be related to the corresponding magmatic processes, such as the
-                pre-eruptive magma
+            <p>This calculator is developed for estimating the timescale of multicomponent (F-Cl-OH) diffusion in
+                apatite, and it can be applied to natural apatite that is zoned of F/Cl/OH.
+                The calculated diffusion times can be related to magmatic processes such as magma
                 ascent.<br>
-                Detailed computation methods and applications can be found in the paper below:</p>
-            <p><i>Li, W., Chakraborty, S., Nagashima, K., Costa, F. Multicomponent diffusion of F, Cl and OH in apatite
+            </p>
+            <p>
+                Detailed experimental and computation methods as well as the model applications can be found in the
+                paper below:<br>
+                <i>Li, W., Chakraborty, S., Nagashima, K., Costa, F. Multicomponent diffusion of F, Cl and OH in apatite
                     with application to
-                    magma ascent rates. EPSL (in review)</i></p>
+                    magma ascent rates. EPSL (accepted)</i></p>
         </div>
 
         <div class="input my-3 p-3">
             <h3>Input:</h3>
 
             <p>
-                <b>Determined compositional profiles: </b>
-                <span>Please use the provided <a href="https://aptimer.wovodat.org/static/js/index.js"
-                        download="data_template.csv">data template</a> (.csv) to organise your data, and upload them
+                <b>Measured diffusion profile: </b>
+                <span>Please use the provided <a href="https://aptimer.wovodat.org/static/data_template.csv"
+                        download="data_template.csv">data template</a> (.csv) to organise your data, and upload
+                    the <span style="color: red;">
+                        csv</span> file
                     using the green button below.</span>
             </p>
             <form class="upload">
@@ -68,7 +71,7 @@
 
                         <table class="table table-borderless table-sm col-lg-11">
                             <tr>
-                                <td>Temperature:</td>
+                                <td>Temperature (<sup>o</sup>C):</td>
                                 <td><input type="text" placeholder="900" id="temp"></td>
                             </tr>
                             <tr>

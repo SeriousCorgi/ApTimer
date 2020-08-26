@@ -16,11 +16,11 @@ class DiffFunc:
         doh = 1.7 * 10 ** (-2) * math.exp(-397000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
 
         DCl = str(dcl).split('e')
-        DCl = 'e'.join([str(round(float(DCl[0]), 2)), DCl[1]])
+        DCl = 'e'.join([str("%.2f" % round(float(DCl[0]), 2)), DCl[1]])
         DF = str(df).split('e')
-        DF = 'e'.join([str(round(float(DF[0]), 2)), DF[1]])
+        DF = 'e'.join([str("%.2f" % round(float(DF[0]), 2)), DF[1]])
         DOH = str(doh).split('e')
-        DOH = 'e'.join([str(round(float(DOH[0]), 2)), DOH[1]])
+        DOH = 'e'.join([str("%.2f" % round(float(DOH[0]), 2)), DOH[1]])
         return {"D(CL)": DCl,
                 "D(F)": DF,
                 "D(OH)": DOH,

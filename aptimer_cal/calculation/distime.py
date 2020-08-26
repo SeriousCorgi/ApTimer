@@ -158,6 +158,8 @@ class DisTime:
         phin = np.zeros((len(phi0), len(phi0[0])))
         timesum = 0  # total real time elapsed
         t = 0  # iteration/time-step index
+        if dt<1:
+            t_length = iteration
         Ans_Cl = np.zeros((len(phi0), t_length))
         Ans_F = np.zeros((len(phi0), t_length))
         Ans_OH = np.zeros((len(phi0), t_length))
@@ -381,7 +383,8 @@ class DisTime:
             x_model.append(i)
             i += dx
 
-        for j in range(t_length):
+        iteration_right = min(iteration, t_length)
+        for j in range(iteration_right):
             Ans = list(Ans_Cl[:, j])
             print("* ", j, "\t Ans: ", Ans)
             interp_funct = interp1d(x_model, Ans)

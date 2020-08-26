@@ -88,7 +88,7 @@ $(document).ready(function () {
             },
             error: function (data) {
                 console.log("error");
-
+                alert("Incorrect format file");
             }
         });
     });
@@ -356,7 +356,7 @@ $(document).ready(function () {
                         $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
                             + "<tr><th>Best-fit time and uncertainty:</th><td>"
                             + data['best_fit_time'] + " (+"
-                            + data['plus'] + "/-"
+                            + data['plus'] + "/"
                             + data['minus'] + ")</td><td> hours</td></tr>"
                             + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
                             + "</table>"
@@ -367,7 +367,7 @@ $(document).ready(function () {
                         $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
                             + "<tr><th>Best-fit time and uncertainty:</th><td>"
                             + data['best_fit_time'] + " (+"
-                            + data['plus'] + "/-"
+                            + data['plus'] + "/"
                             + data['minus'] + ")</td><td> hours</td></tr>"
                             + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
                             + "</table>"
