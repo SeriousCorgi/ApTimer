@@ -113,6 +113,7 @@ $(document).ready(function () {
                         "<tr><th>D<sub>F</sub>:</th><td>" + df + "</td><td>m<sup>2</sup>/s</td></tr>" +
                         "<tr><th>D<sub>OH</sub>:</th><td>" + doh + "</td><td>m<sup>2</sup>/s</td></tr>" +
                         "</table>"
+                    $(".calculation-result").empty();
                     $(".calculation-result").append($new_div);
                 }
             });
@@ -250,6 +251,10 @@ $(document).ready(function () {
 
     $(".button-distime").click(function () {
         if (uploaded) {
+            $(this).attr("disabled", true);
+            $(this).css("width", "54px");
+            $(this).html("<div class='spinner-border' style='width: 1.5rem; height: 1.5rem;' role='status'><span class='sr-only'>Loading...</span></div>");
+
             $dx = $(".distime #dx").val();
             $dt = $(".distime #dt").val();
             $iteration = $(".distime #iteration").val();
@@ -277,14 +282,14 @@ $(document).ready(function () {
                     dt: $dt,
                     iteration: $iteration,
                     length: length,
-    
+
                     temp: $temp,
                     tilt: $tilt,
-    
+
                     dcl: dcl,
                     df: df,
                     doh: doh,
-    
+
                     xcl_ini: $xcl_ini,
                     xf_ini: $xf_ini,
                     xoh_ini: $xoh_ini,
@@ -294,7 +299,7 @@ $(document).ready(function () {
                     xcl_right: $xcl_right,
                     xf_right: $xf_right,
                     xoh_right: $xoh_right,
-    
+
                     y_cl: JSON.stringify(y_cl),
                     y_f: JSON.stringify(y_f),
                     y_oh: JSON.stringify(y_oh),
@@ -355,7 +360,7 @@ $(document).ready(function () {
                         };
 
                         $(".error-dt").empty();
-    
+
                         if (num_run > 1) {
                             Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
                             Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
@@ -380,7 +385,7 @@ $(document).ready(function () {
                             $(".model-result").empty();
                             $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
                         }
-    
+
                         if (data['state'] == 'no best fit') $(".model-result").append('<span style="color: red;">No best fit. Please check the input  of dt, dx and iteration.</span>');
                     }
                 })

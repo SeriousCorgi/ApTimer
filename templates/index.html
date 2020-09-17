@@ -38,9 +38,11 @@
             <p>
                 Detailed experimental and computation methods as well as the model applications can be found in the
                 paper below:<br>
-                <i>Li, W., Chakraborty, S., Nagashima, K., Costa, F. Multicomponent diffusion of F, Cl and OH in apatite
-                    with application to
-                    magma ascent rates. EPSL (accepted)</i></p>
+                <i style="font-size: 14px;">Li, W., Chakraborty, S., Nagashima, K, & Costa, F (2020a). Multicomponent
+                    diffusion of F, Cl, OH in
+                    apatite with
+                    application to magma ascent rates. Earth and Planetary Science Letters. 550, 116545.
+                    (DOI:10.1016/j.epsl.2020.116545)</i></p>
         </div>
 
         <div class="input my-3 p-3">
@@ -72,15 +74,33 @@
                         <table class="table table-borderless table-sm col-lg-11">
                             <tr>
                                 <td>Temperature (<sup>o</sup>C):</td>
-                                <td><input type="text" placeholder="900" id="temp"></td>
+                                <td><input type="text" value="900" id="temp"></td>
                             </tr>
                             <tr>
-                                <td>Angle between traverse and the c- axis of apatite:</td>
-                                <td><input type="text" placeholder="17" id="tilt"></td>
+                                <td>Angle between traverse and the c-axis of apatite:</td>
+                                <td><input type="text" value="17" id="tilt"></td>
                             </tr>
                         </table>
                     </form>
-                    <div class="calculation-result"></div>
+                    <div class="calculation-result">
+                        <table class='table table-sm col-lg-5 col-md-8'>
+                            <tr>
+                                <th>D<sub>Cl</sub>:</th>
+                                <td>&emsp;&emsp;&emsp;</td>
+                                <td>m<sup>2</sup>/s</td>
+                            </tr>
+                            <tr>
+                                <th>D<sub>F</sub>:</th>
+                                <td>&emsp;&emsp;&emsp;</td>
+                                <td>m<sup>2</sup>/s</td>
+                            </tr>
+                            <tr>
+                                <th>D<sub>OH</sub>:</th>
+                                <td>&emsp;&emsp;&emsp;</td>
+                                <td>m<sup>2</sup>/s</td>
+                            </tr>
+                        </table>
+                    </div>
                     <button class="btn button-cal" type="button">Calculate</button>
                 </div>
 
@@ -97,21 +117,21 @@
                             <tbody>
                                 <tr>
                                     <td scope="row">X<sub>Cl</sub></td>
-                                    <td><input type="text" id="xcl_ini" placeholder="0.14"></td>
-                                    <td><input type="text" id="xcl_left" placeholder="0.22"></td>
-                                    <td><input type="text" id="xcl_right" placeholder="0.14"></td>
+                                    <td><input type="text" id="xcl_ini" value="0.14"></td>
+                                    <td><input type="text" id="xcl_left" value="0.22"></td>
+                                    <td><input type="text" id="xcl_right" value="0.14"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row">X<sub>F</sub></td>
-                                    <td><input type="text" id="xf_ini" placeholder="0.69"></td>
-                                    <td><input type="text" id="xf_left" placeholder="0.78"></td>
-                                    <td><input type="text" id="xf_right" placeholder="0.69"></td>
+                                    <td><input type="text" id="xf_ini" value="0.69"></td>
+                                    <td><input type="text" id="xf_left" value="0.78"></td>
+                                    <td><input type="text" id="xf_right" value="0.69"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row">X<sub>OH</sub></td>
-                                    <td><input type="text" id="xoh_ini" placeholder="0.17"></td>
-                                    <td><input type="text" id="xoh_left" placeholder="0.0"></td>
-                                    <td><input type="text" id="xoh_right" placeholder="0.17"></td>
+                                    <td><input type="text" id="xoh_ini" value="0.17"></td>
+                                    <td><input type="text" id="xoh_left" value="0.0"></td>
+                                    <td><input type="text" id="xoh_right" value="0.17"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -123,28 +143,32 @@
 
             <hr style="border-top: 1px dashed">
 
-            <p><b>Distance & time steps:</b></p>
+            <p><b>Distance & time steps: </b><i style="color: blue;">dx and dt have to be &le; 1</i></p>
             <form action="" class="distime">
                 <div class="col-lg-4 col-md-8 p-0">
                     <table class="table table-borderless table-sm">
                         <tbody>
                             <tr>
                                 <td>Distance step, dx:</td>
-                                <td><input type="text" placeholder="1" id="dx"> µm</td>
+                                <td><input type="text" value="1" id="dx"> µm</td>
                             </tr>
                             <tr>
                                 <td>Time step, dt:</td>
-                                <td><input type="text" placeholder="1" id="dt"> hours</td>
+                                <td><input type="text" value="1" id="dt"> hours</td>
                             </tr>
                             <tr>
                                 <td>Iteration:</td>
-                                <td><input type="text" placeholder="230" id="iteration"></td>
+                                <td><input type="text" value="230" id="iteration"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="error-dt"></div>
-                <button class="btn button-distime mt-3" type="button">Run</button>
+                <button class="btn button-distime mt-3 d-inline-block" type="button">Run</button>
+                <div class="mt-3 ml-3 d-inline-block align-middle">
+                    <span style="font-size: 16px;color:blue"><i>You can change the input and run the model
+                            again!</i></span>
+                </div>
             </form>
         </div>
 

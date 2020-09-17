@@ -31,6 +31,10 @@ div.input button:hover {
     background: #50c058;
 }
 
+div.input button:disabled {
+    background: #63c76a !important;
+}
+
 div.input .upload div.custom-file {
     max-width: 30%;
     margin-right: 30px;
