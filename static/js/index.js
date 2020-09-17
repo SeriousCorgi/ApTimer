@@ -21,7 +21,7 @@ $(document).ready(function () {
         fd.append('excel', $excel);
 
         $.ajax({
-            url: 'https://aptimer.wovodat.org/api/excel',
+            url: 'http://localhost:8000/api/excel',
             type: 'post',
             data: fd,
             cache: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
             $temp = $(".diffusivity-cal #temp").val();
             $tilt = $(".diffusivity-cal #tilt").val();
 
-            let url = "https://aptimer.wovodat.org/api/diff";
+            let url = "http://localhost:8000/api/diff";
             $.get(url, { temp: $temp, tilt: $tilt }, function (data, status) {
                 console.log(status);
                 if (status == "success") {
@@ -143,7 +143,7 @@ $(document).ready(function () {
 
                 console.log(sum_ini, sum_left, sum_right);
                 if (sum_ini <= 1 && sum_left <= 1 && sum_right <= 1) {
-                    let url = "https://aptimer.wovodat.org/api/inibound";
+                    let url = "http://localhost:8000/api/inibound";
                     let req_data = {
                         xcl_ini: $xcl_ini,
                         xf_ini: $xf_ini,
@@ -267,115 +267,124 @@ $(document).ready(function () {
             $xf_right = $(".inibound #xf_right").val();
             $xoh_right = $(".inibound #xoh_right").val();
 
-            let url = "https://aptimer.wovodat.org/api/distime";
-            let req_data = {
-                dx: $dx,
-                dt: $dt,
-                iteration: $iteration,
-                length: length,
+            if ($dt > 1 || $dx > 1) {
+                $(".error-dt").empty();
+                $(".error-dt").append('<span style="color: red;">*Check: dx and dt have to be &le; 1!</span>');
+            } else {
+                let url = "http://localhost:8000/api/distime";
+                let req_data = {
+                    dx: $dx,
+                    dt: $dt,
+                    iteration: $iteration,
+                    length: length,
+    
+                    temp: $temp,
+                    tilt: $tilt,
+    
+                    dcl: dcl,
+                    df: df,
+                    doh: doh,
+    
+                    xcl_ini: $xcl_ini,
+                    xf_ini: $xf_ini,
+                    xoh_ini: $xoh_ini,
+                    xcl_left: $xcl_left,
+                    xf_left: $xf_left,
+                    xoh_left: $xoh_left,
+                    xcl_right: $xcl_right,
+                    xf_right: $xf_right,
+                    xoh_right: $xoh_right,
+    
+                    y_cl: JSON.stringify(y_cl),
+                    y_f: JSON.stringify(y_f),
+                    y_oh: JSON.stringify(y_oh),
+                    err_cl: JSON.stringify(err_cl),
+                    err_f: JSON.stringify(err_f),
+                    err_oh: JSON.stringify(err_oh),
+                };
+                $.get(url, req_data, function (data, status) {
+                    console.log(status);
+                    console.log(data);
+                    if (status == "success") {
+                        num_run += 1;
+                        console.log(num_run);
+                        let x = data['x'];
+                        let red_cl = {
+                            x: x,
+                            y: data['red_cl'],
+                            type: 'scatter',
+                            mode: 'lines',
+                            name: 'Best-fit line',
+                            line: { color: 'red' },
+                        };
+                        let red_f = {
+                            x: x,
+                            y: data['red_f'],
+                            type: 'scatter',
+                            mode: 'lines',
+                            xaxis: 'x2',
+                            yaxis: 'y2',
+                            line: { color: 'red' },
+                            showlegend: false,
+                        };
+                        let red_oh = {
+                            x: x,
+                            y: data['red_oh'],
+                            type: 'scatter',
+                            mode: 'lines',
+                            xaxis: 'x3',
+                            yaxis: 'y3',
+                            line: { color: 'red' },
+                            showlegend: false,
+                        };
+                        let min_cl = {
+                            x: x,
+                            y: data['min_Ans'],
+                            type: 'scatter',
+                            mode: 'lines',
+                            name: 'Minimum boundary',
+                            line: { color: 'green', dash: 'dash' },
+                        };
+                        let max_cl = {
+                            x: x,
+                            y: data['max_Ans'],
+                            type: 'scatter',
+                            mode: 'lines',
+                            name: 'Maximum boundary',
+                            line: { color: 'green', dash: 'dash' },
+                        };
 
-                temp: $temp,
-                tilt: $tilt,
-
-                dcl: dcl,
-                df: df,
-                doh: doh,
-
-                xcl_ini: $xcl_ini,
-                xf_ini: $xf_ini,
-                xoh_ini: $xoh_ini,
-                xcl_left: $xcl_left,
-                xf_left: $xf_left,
-                xoh_left: $xoh_left,
-                xcl_right: $xcl_right,
-                xf_right: $xf_right,
-                xoh_right: $xoh_right,
-
-                y_cl: JSON.stringify(y_cl),
-                y_f: JSON.stringify(y_f),
-                y_oh: JSON.stringify(y_oh),
-                err_cl: JSON.stringify(err_cl),
-                err_f: JSON.stringify(err_f),
-                err_oh: JSON.stringify(err_oh),
-            };
-            $.get(url, req_data, function (data, status) {
-                console.log(status);
-                console.log(data);
-                if (status == "success") {
-                    num_run += 1;
-                    console.log(num_run);
-                    let x = data['x'];
-                    let red_cl = {
-                        x: x,
-                        y: data['red_cl'],
-                        type: 'scatter',
-                        mode: 'lines',
-                        name: 'Best-fit line',
-                        line: { color: 'red' },
-                    };
-                    let red_f = {
-                        x: x,
-                        y: data['red_f'],
-                        type: 'scatter',
-                        mode: 'lines',
-                        xaxis: 'x2',
-                        yaxis: 'y2',
-                        line: { color: 'red' },
-                        showlegend: false,
-                    };
-                    let red_oh = {
-                        x: x,
-                        y: data['red_oh'],
-                        type: 'scatter',
-                        mode: 'lines',
-                        xaxis: 'x3',
-                        yaxis: 'y3',
-                        line: { color: 'red' },
-                        showlegend: false,
-                    };
-                    let min_cl = {
-                        x: x,
-                        y: data['min_Ans'],
-                        type: 'scatter',
-                        mode: 'lines',
-                        name: 'Minimum boundary',
-                        line: { color: 'green', dash: 'dash' },
-                    };
-                    let max_cl = {
-                        x: x,
-                        y: data['max_Ans'],
-                        type: 'scatter',
-                        mode: 'lines',
-                        name: 'Maximum boundary',
-                        line: { color: 'green', dash: 'dash' },
-                    };
-
-                    if (num_run > 1) {
-                        Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
-                        Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
-                            + "<tr><th>Best-fit time and uncertainty:</th><td>"
-                            + data['best_fit_time'] + " (+"
-                            + data['plus'] + "/"
-                            + data['minus'] + ")</td><td> hours</td></tr>"
-                            + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
-                            + "</table>"
-                        $(".model-result").empty();
-                        $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
-                    } else {
-                        Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
-                        $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
-                            + "<tr><th>Best-fit time and uncertainty:</th><td>"
-                            + data['best_fit_time'] + " (+"
-                            + data['plus'] + "/"
-                            + data['minus'] + ")</td><td> hours</td></tr>"
-                            + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
-                            + "</table>"
-                        $(".model-result").empty();
-                        $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
+                        $(".error-dt").empty();
+    
+                        if (num_run > 1) {
+                            Plotly.deleteTraces('plot', [6, 7, 8, 9, 10]);
+                            Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
+                            $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
+                                + "<tr><th>Best-fit time and uncertainty:</th><td>"
+                                + data['best_fit_time'] + " (+"
+                                + data['plus'] + "/"
+                                + data['minus'] + ")</td><td> hours</td></tr>"
+                                + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
+                                + "</table>"
+                            $(".model-result").empty();
+                            $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
+                        } else {
+                            Plotly.addTraces('plot', [red_cl, red_f, red_oh, min_cl, max_cl]);
+                            $new_div = "<table class='table table-sm col-lg-6 col-md-8'>"
+                                + "<tr><th>Best-fit time and uncertainty:</th><td>"
+                                + data['best_fit_time'] + " (+"
+                                + data['plus'] + "/"
+                                + data['minus'] + ")</td><td> hours</td></tr>"
+                                + "<tr><th></th><td>~" + data["best_day"] + "</td><td> days</td></tr>"
+                                + "</table>"
+                            $(".model-result").empty();
+                            $(".model-result").append("<h3>Model fits:</h3>" + $new_div);
+                        }
+    
+                        if (data['state'] == 'no best fit') $(".model-result").append('<span style="color: red;">No best fit. Please check the input  of dt, dx and iteration.</span>');
                     }
-                }
-            })
+                })
+            }
         } else {
             alert("Please upload excel file");
         }
