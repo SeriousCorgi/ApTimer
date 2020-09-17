@@ -21,7 +21,7 @@ $(document).ready(function () {
         fd.append('excel', $excel);
 
         $.ajax({
-            url: 'http://localhost:8000/api/excel',
+            url: 'https://aptimer.wovodat.org/api/excel',
             type: 'post',
             data: fd,
             cache: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
             $temp = $(".diffusivity-cal #temp").val();
             $tilt = $(".diffusivity-cal #tilt").val();
 
-            let url = "http://localhost:8000/api/diff";
+            let url = "https://aptimer.wovodat.org/api/diff";
             $.get(url, { temp: $temp, tilt: $tilt }, function (data, status) {
                 console.log(status);
                 if (status == "success") {
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
                 console.log(sum_ini, sum_left, sum_right);
                 if (sum_ini <= 1 && sum_left <= 1 && sum_right <= 1) {
-                    let url = "http://localhost:8000/api/inibound";
+                    let url = "https://aptimer.wovodat.org/api/inibound";
                     let req_data = {
                         xcl_ini: $xcl_ini,
                         xf_ini: $xf_ini,
@@ -276,7 +276,7 @@ $(document).ready(function () {
                 $(".error-dt").empty();
                 $(".error-dt").append('<span style="color: red;">*Check: dx and dt have to be &le; 1!</span>');
             } else {
-                let url = "http://localhost:8000/api/distime";
+                let url = "https://aptimer.wovodat.org/api/distime";
                 let req_data = {
                     dx: $dx,
                     dt: $dt,
@@ -308,6 +308,10 @@ $(document).ready(function () {
                     err_oh: JSON.stringify(err_oh),
                 };
                 $.get(url, req_data, function (data, status) {
+                    $(".button-distime").removeAttr("disabled");
+                    $(".button-distime").css("width", "");
+                    $(".button-distime").html("Run");
+
                     console.log(status);
                     console.log(data);
                     if (status == "success") {
