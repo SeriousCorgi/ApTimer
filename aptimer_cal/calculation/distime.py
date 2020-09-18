@@ -387,6 +387,7 @@ class DisTime:
         for j in range(iteration_right):
             Ans = list(Ans_Cl[:, j])
             print("* ", j, "\t Ans: ", Ans)
+            limit = len(Ans)
             if (len(x_model)!=len(Ans)):
                 limit = min(len(x_model), len(Ans))
             interp_funct = interp1d(x_model[:limit], Ans[:limit])
