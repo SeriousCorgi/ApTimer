@@ -21,7 +21,7 @@ $(document).ready(function () {
         fd.append('excel', $excel);
 
         $.ajax({
-            url: 'https://aptimer.wovodat.org/api/excel',
+            url: 'https://localhost:8000/api/excel',
             type: 'post',
             data: fd,
             cache: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
             $temp = $(".diffusivity-cal #temp").val();
             $tilt = $(".diffusivity-cal #tilt").val();
 
-            let url = "https://aptimer.wovodat.org/api/diff";
+            let url = "https://localhost:8000/api/diff";
             $.get(url, { temp: $temp, tilt: $tilt }, function (data, status) {
                 console.log(status);
                 if (status == "success") {
@@ -143,7 +143,7 @@ $(document).ready(function () {
 
                 console.log(sum_ini, sum_left, sum_right);
                 if (sum_ini <= 1 && sum_left <= 1 && sum_right <= 1) {
-                    let url = "https://aptimer.wovodat.org/api/inibound";
+                    let url = "https://localhost:8000/api/inibound";
                     let req_data = {
                         xcl_ini: $xcl_ini,
                         xf_ini: $xf_ini,
@@ -267,7 +267,7 @@ $(document).ready(function () {
             $xf_right = $(".inibound #xf_right").val();
             $xoh_right = $(".inibound #xoh_right").val();
 
-            let url = "https://aptimer.wovodat.org/api/distime";
+            let url = "https://localhost:8000/api/distime";
             let req_data = {
                 dx: $dx,
                 dt: $dt,
