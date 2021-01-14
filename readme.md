@@ -18,6 +18,11 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+* Migrate 
+```
+python manage.py migrate
+```
+
 * Run the server
 ```
 python manage.py runserver

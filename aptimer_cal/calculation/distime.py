@@ -159,8 +159,8 @@ class DisTime:
         phin = np.zeros((len(phi0), len(phi0[0])))
         timesum = 0  # total real time elapsed
         t = 0  # iteration/time-step index
-        if dt<1:
-            t_length = iteration
+        # if dt<1:
+        #     t_length = self.iteration*dt
         Ans_Cl = np.zeros((len(phi0), t_length))
         Ans_F = np.zeros((len(phi0), t_length))
         Ans_OH = np.zeros((len(phi0), t_length))
@@ -385,12 +385,15 @@ class DisTime:
             x_model.append(i)
             i += dx
 
-        # iteration_right = min(iteration, t_length)
-        iteration_right = t_length
-        for j in range(iteration_right):
+        # iteration_right = min(self.iteration, t_length)
+        # iteration_right = t_length
+        for j in range(t_length):
             Ans = list(Ans_Cl[:, j])
             print("* ", j, "\t Ans: ", Ans)
-            interp_funct = interp1d(x_model, Ans)
+            limit = len(Ans)
+            if (len(x_model)!=len(Ans)):
+                limit = min(len(x_model), len(Ans))
+            interp_funct = interp1d(x_model[:limit], Ans[:limit])
             new_Ans = list(interp_funct(self.meas_dis))
             print("* ", j, "\t new_Ans: ", new_Ans)
             num_fit = 0
@@ -438,7 +441,7 @@ class DisTime:
         min_Ans = Ans_Cl[:, min_j]
         max_Ans = Ans_Cl[:, max_j]
         print(best_j, "\t best_Ans: ", best_Ans)
-        new_best_Ans = list(interp1d(x_model, best_Ans)(self.meas_dis))
+        new_best_Ans = list(interp1d(x_model[:limit], best_Ans[:limit])(self.meas_dis))
         Diff = []
         Diff_norm = []
         for N in range(self.length):
@@ -446,15 +449,49 @@ class DisTime:
             Diff_norm.append(Diff[N] / self.meas_profile[0][N])
         Discrepancy = sum(Diff_norm) / len(Diff_norm)
         print("Discrepancy: ", Discrepancy)
+        result = {'result':{
+                        'state': 'no best fit',
+                        'x': xcp-dx/2,
+                        'red_cl': best_Ans,
+                        'red_f': Ans_F[:, best_j],
+                        'red_oh': Ans_OH[:, best_j],
+                        'min_Ans': min_Ans,
+                        'max_Ans': max_Ans,
+                        'best_fit_time': round(t_best_hour, 5),
+                        'best_day': round(t_best_day, 1),
+                        'plus': round(t_best_pers, 5),
+                        'minus': round(t_best_ners, 5),
+                        }
+                    }
+        print('result: ', result)
 
-        return {'x': xcp-dx/2,
-                'red_cl': best_Ans,
-                'red_f': Ans_F[:, best_j],
-                'red_oh': Ans_OH[:, best_j],
-                'min_Ans': min_Ans,
-                'max_Ans': max_Ans,
-                'best_fit_time': round(t_best_hour, 5),
-                'best_day': round(t_best_day, 1),
-                'plus': round(t_best_pers, 5),
-                'minus': round(t_best_ners, 5),
-                }
+        if max_j - min_j + 1 == t_length:
+            return {'result':{
+                        'state': 'no best fit',
+                        'x': xcp-dx/2,
+                        'red_cl': best_Ans,
+                        'red_f': Ans_F[:, best_j],
+                        'red_oh': Ans_OH[:, best_j],
+                        'min_Ans': min_Ans,
+                        'max_Ans': max_Ans,
+                        'best_fit_time': round(t_best_hour, 5),
+                        'best_day': round(t_best_day, 1),
+                        'plus': round(t_best_pers, 5),
+                        'minus': round(t_best_ners, 5),
+                        }
+                    }
+        else:
+            return {'result':{
+                        'state': 'exist best fit',
+                        'x': xcp-dx/2,
+                        'red_cl': best_Ans,
+                        'red_f': Ans_F[:, best_j],
+                        'red_oh': Ans_OH[:, best_j],
+                        'min_Ans': min_Ans,
+                        'max_Ans': max_Ans,
+                        'best_fit_time': round(t_best_hour, 5),
+                        'best_day': round(t_best_day, 1),
+                        'plus': round(t_best_pers, 5),
+                        'minus': round(t_best_ners, 5),
+                        }
+                    }

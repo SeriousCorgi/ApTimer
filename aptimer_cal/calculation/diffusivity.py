@@ -11,9 +11,9 @@ class DiffFunc:
 
     def diffusivity(self):
         tilt = math.radians(self.tilt)
-        dcl = 5.1 * 10 ** (-5) * math.exp(-290000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
-        df = 9 * 10 ** (-5) * math.exp(-288000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
-        doh = 1.7 * 10 ** (-2) * math.exp(-397000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
+        dcl = 7.15 * 10 ** (-5) * math.exp(-294000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
+        df = 5.4 * 10 ** (-4) * math.exp(-308000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
+        doh = 3.66 * 10 ** (-2) * math.exp(-401000 / (8.314 * (self.temp + 273.15))) * math.pow(math.cos(tilt), 2)
 
         DCl = str(dcl).split('e')
         DCl = 'e'.join([str("%.2f" % round(float(DCl[0]), 2)), DCl[1]])
