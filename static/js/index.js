@@ -21,7 +21,7 @@ $(document).ready(function () {
         fd.append('excel', $excel);
 
         $.ajax({
-            url: 'http://localhost:8000/api/excel',
+            url: 'https://aptimer.wovodat.org/api/excel',
             type: 'post',
             data: fd,
             cache: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
             $temp = $(".diffusivity-cal #temp").val();
             $tilt = $(".diffusivity-cal #tilt").val();
 
-            let url = "http://localhost:8000/api/diff";
+            let url = "https://aptimer.wovodat.org/api/diff";
             $.get(url, { temp: $temp, tilt: $tilt }, function (data, status) {
                 console.log(status);
                 if (status == "success") {
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
                 console.log(sum_ini, sum_left, sum_right);
                 if (sum_ini <= 1 && sum_left <= 1 && sum_right <= 1) {
-                    let url = "http://localhost:8000/api/inibound";
+                    let url = "https://aptimer.wovodat.org/api/inibound";
                     let req_data = {
                         xcl_ini: $xcl_ini,
                         xf_ini: $xf_ini,
@@ -275,8 +275,11 @@ $(document).ready(function () {
             if ($dx > 1) {
                 $(".error-dt").empty();
                 $(".error-dt").append('<span style="color: red;">*Check: dx has to be &le; 1!</span>');
+                $(".button-distime").removeAttr("disabled");
+                $(".button-distime").css("width", "");
+                $(".button-distime").html("Run");
             } else {
-                let url = "http://localhost:8000/api/distime";
+                let url = "https://aptimer.wovodat.org/api/distime";
                 let req_data = {
                     dx: $dx,
                     dt: $dt,
@@ -394,8 +397,44 @@ $(document).ready(function () {
                     }
                 })
             }
+
         } else {
             alert("Please upload excel file");
         }
+    });
+
+    $(".button-upload-inibound").click(function () {
+        let fd = new FormData();
+        let $file = $('.file-inibound #upload-inibound')[0].files[0];
+        fd.append('file', $file);
+
+        $.ajax({
+            url: 'https://aptimer.wovodat.org/api/input-inibound',
+            type: 'post',
+            data: fd,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log("success");
+                console.log(data);
+
+                $('#xcl_ini').val(data['xcl'][0]);
+                $('#xcl_left').val(data['xcl'][1]);
+                $('#xcl_right').val(data['xcl'][2]);
+
+                $('#xf_ini').val(data['xf'][0]);
+                $('#xf_left').val(data['xf'][1]);
+                $('#xf_right').val(data['xf'][2]);
+
+                $('#xoh_ini').val(data['xoh'][0]);
+                $('#xoh_left').val(data['xoh'][1]);
+                $('#xoh_right').val(data['xoh'][2]);
+            },
+            error: function (data) {
+                console.log("error");
+                alert("Incorrect format");
+            }
+        });
     });
 });
